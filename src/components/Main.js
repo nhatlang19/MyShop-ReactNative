@@ -1,36 +1,37 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+// import { View, Text, TouchableOpacity } from 'react-native';
+
+import Drawer from 'react-native-drawer';
+
+import SideMenu from './SideMenu';
+import Shop from './Shop';
 
 class Main extends Component {
-    gotoAuthentication() {
-        const { navigator } = this.props;
-        navigator.push({ name: 'AUTHENTICATION' });
+    constructor(props) {
+        super(props);
+        this.state = {};
     }
 
-    gotoChangeInfo() {
-        const { navigator } = this.props;
-        navigator.push({ name: 'CHANGE_INFO' });
-    }
-
-    gotoOrderHistory() {
-        const { navigator } = this.props;
-        navigator.push({ name: 'ORDER_HISTORY' });
-    }
+    closeControlPanel = () => {
+        this.drawer.close();
+    };
+    openControlPanel = () => {
+        this.drawer.open();
+    };
 
     render() {
         return (
-            <View style={{ flex: 1, padding: 50, backgroundColor: 'blue' }}>
-                <Text>Main</Text>
-                <TouchableOpacity onPress={this.gotoAuthentication.bind(this)}>
-                    <Text>Open Authentication</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={this.gotoChangeInfo.bind(this)}>
-                    <Text>Open Change Info</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={this.gotoOrderHistory.bind(this)}>
-                    <Text>Open Order History</Text>
-                </TouchableOpacity>
-            </View>
+            <Drawer
+                type="overlay"
+                tapToClose
+                openDrawerOffset={0.2} // 20% gap on the right side of drawer
+                panCloseMask={0.2}
+                closedDrawerOffset={-3}
+                ref={(ref) => (this.drawer = ref)}
+                content={<SideMenu navigator={this.props.navigator} />}
+            >
+                <Shop open={this.openControlPanel.bind(this)} navigator={this.props.navigator} />
+            </Drawer>
         );
     }
 }

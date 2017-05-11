@@ -9,6 +9,13 @@ import ChangeInfo from './components/ChangeInfo';
 import OrderHistory from './components/OrderHistory';
 
 class App extends Component {
+    configureScene(route) {
+        if (route.name === 'AUTHENTICATION') {
+            return NavigationExperimental.Navigator.SceneConfigs.FloatFromRight;
+        }
+        return NavigationExperimental.Navigator.SceneConfigs.FloatFromLeft;
+    }
+
     renderScene(route, navigator) {
         switch (route.name) {
             case 'MAIN': return <Main navigator={navigator} />;
@@ -24,6 +31,7 @@ class App extends Component {
             <NavigationExperimental.Navigator
                 initialRoute={{ name: 'MAIN' }}
                 renderScene={this.renderScene}
+                configureScene={this.configureScene}
             />
         );
     }
