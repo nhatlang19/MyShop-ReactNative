@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
 class SideMenu extends Component {
+    gotoAuthentication() {
+        const { navigator } = this.props;
+        navigator.push({ name: 'AUTHENTICATION' });
+    }
+    
     gotoChangeInfo() {
         const { navigator } = this.props;
         navigator.push({ name: 'CHANGE_INFO' });

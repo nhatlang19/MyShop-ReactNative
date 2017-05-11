@@ -16,15 +16,11 @@ class Shop extends Component {
             numberInCart: 0
         };
     }
+
     openMenu() {
         this.props.open();
     }
-
-    gotoAuthentication() {
-        const { navigator } = this.props;
-        navigator.push({ name: 'AUTHENTICATION' });
-    }
-
+    
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: 'blue' }}>
