@@ -28,16 +28,12 @@ class Shop extends Component {
         };
     }
 
-    openMenu() {
-        this.props.open();
-    }
-    
     render() {
         const { wrapper, tabIcon, tabItem } = styles;
 
         return (
             <View style={wrapper}>
-            <Header />
+            <Header openMenu={this.props.open} />
             <TabNavigator>
                 <TabNavigator.Item
                     titleStyle={tabItem}

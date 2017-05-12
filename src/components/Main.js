@@ -12,6 +12,10 @@ class Main extends Component {
         this.state = {};
     }
 
+    componentDidMount() {
+        this.drawer.open();
+    }
+
     closeControlPanel = () => {
         this.drawer.close();
     };

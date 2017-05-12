@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+
+import Avatar from './sidemenu/Avatar';
+import SignIn from './sidemenu/SignIn';
 
 class SideMenu extends Component {
     gotoAuthentication() {
@@ -18,8 +21,12 @@ class SideMenu extends Component {
     }
 
     render() {
+        const { wrapper } = styles;
+
         return (
-            <View style={{ flex: 1, backgroundColor: 'gray', padding: 50 }}>
+            <View style={wrapper}>
+                <Avatar />
+                <SignIn gotoAuthentication={this.gotoAuthentication.bind(this)} />
                 <Text>Side menu</Text>
 
                 <TouchableOpacity onPress={this.gotoChangeInfo.bind(this)}>
@@ -32,5 +39,12 @@ class SideMenu extends Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    wrapper: {
+        flex: 1, 
+        backgroundColor: '#0eb294'
+    }
+});
 
 export default SideMenu;

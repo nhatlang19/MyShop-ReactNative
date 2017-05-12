@@ -11,7 +11,7 @@ const { width, height } = Dimensions.get('window');
 class Collection extends Component {
     constructor(props) {
         super(props);
-        this.state = { searchBy: '' };
+        this.state = {};
     }
 
     render() {

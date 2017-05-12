@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 
 import Collection from './Home/Collection';
 import Slideshow from './Home/Slideshow';
@@ -10,11 +10,11 @@ class Home extends Component {
     render() {
         const { wrapper } = styles;
         return (
-            <View style={wrapper}>
+            <ScrollView style={wrapper}>
                 <Collection />
                 <Slideshow />
                 <TopProduct />
-            </View>
+            </ScrollView>
         );
     }
 }
