@@ -1,40 +1,51 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import Avatar from './sidemenu/Avatar';
 import SignIn from './sidemenu/SignIn';
+import Menu from './sidemenu/Menu';
+import Copyright from './sidemenu/Copyright';
 
 class SideMenu extends Component {
-    gotoAuthentication() {
-        const { navigator } = this.props;
-        navigator.push({ name: 'AUTHENTICATION' });
-    }
-    
-    gotoChangeInfo() {
-        const { navigator } = this.props;
-        navigator.push({ name: 'CHANGE_INFO' });
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isLoggedIn: false
+        };
     }
 
-    gotoOrderHistory() {
-        const { navigator } = this.props;
-        navigator.push({ name: 'ORDER_HISTORY' });
+    login() {
+        this.setState({ isLoggedIn: true });
+    }
+
+    logout() {
+        this.setState({ isLoggedIn: false });
     }
 
     render() {
         const { wrapper } = styles;
 
+        const signIn = (
+            <SignIn
+                navigator={this.props.navigator}
+                login={this.login.bind(this)}
+            />
+        );
+        const menu = (
+            <Menu
+                navigator={this.props.navigator}
+                logout={this.logout.bind(this)}
+            />
+        );
+
+        const showUi = !this.state.isLoggedIn ? signIn : menu;
+
         return (
             <View style={wrapper}>
                 <Avatar />
-                <SignIn gotoAuthentication={this.gotoAuthentication.bind(this)} />
-                <Text>Side menu</Text>
-
-                <TouchableOpacity onPress={this.gotoChangeInfo.bind(this)}>
-                    <Text>Open Change Info</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={this.gotoOrderHistory.bind(this)}>
-                    <Text>Open Order History</Text>
-                </TouchableOpacity>
+                {showUi}
+                <Copyright />
             </View>
         );
     }
@@ -42,8 +53,12 @@ class SideMenu extends Component {
 
 const styles = StyleSheet.create({
     wrapper: {
-        flex: 1, 
-        backgroundColor: '#0eb294'
+        flex: 1,
+        backgroundColor: '#0eb294',
+        shadowColor: '#000',
+        shadowOffset: { width: 10, height: 0 },
+        shadowOpacity: 0.2,
+        marginRight: 10
     }
 });
 

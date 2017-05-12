@@ -27,12 +27,12 @@ class Slideshow extends Component {
         } = styles;
 
         const categories = [
-            { url: fit, name: 'Maxi Dress' },
-            { url: little, name: 'Maxi Dress' },
-            { url: maxi, name: 'Maxi Dress' },
-            { url: midi, name: 'Maxi Dress' },
-            { url: mini, name: 'Maxi Dress' },
-            { url: party, name: 'Maxi Dress' }
+            { key: 0, url: fit, name: 'Maxi Dress' },
+            { key: 1, url: little, name: 'Maxi Dress' },
+            { key: 2, url: maxi, name: 'Maxi Dress' },
+            { key: 3, url: midi, name: 'Maxi Dress' },
+            { key: 4, url: mini, name: 'Maxi Dress' },
+            { key: 5, url: party, name: 'Maxi Dress' }
         ];
         return (
             <View style={wrapper}>
@@ -43,7 +43,7 @@ class Slideshow extends Component {
                     <Swiper showsPagination width={imageWidth} height={imageHeight}>
                         {
                             categories.map((e) => (
-                                <Image style={imageStyle} source={e.url}>
+                                <Image key={e.key} style={imageStyle} source={e.url}>
                                     <Text style={categoryText}>{e.name}</Text>
                                 </Image>
                             ))
