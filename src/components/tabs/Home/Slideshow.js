@@ -27,9 +27,9 @@ class Slideshow extends Component {
         });
     }
 
-    gotoCategoriesList() {
+    gotoCategoriesList(category) {
         const { navigator } = this.props;
-        navigator.push({ name: 'CATEGORIES_LIST' });
+        navigator.push({ name: 'CATEGORIES_LIST', category });
     }
 
     render() {
@@ -44,7 +44,8 @@ class Slideshow extends Component {
                         this.state.categories.map((e) => (
                             <TouchableOpacity
                                 key={e.id}
-                                onPress={this.gotoCategoriesList.bind(this)}
+                                ref={e}
+                                onPress={this.gotoCategoriesList.bind(this, e)}
                             >
                                 <Image style={imageStyle} source={{ uri: e.images }}>
                                     <Text style={categoryText}>{e.name}</Text>

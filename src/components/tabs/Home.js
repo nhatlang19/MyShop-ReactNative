@@ -11,9 +11,9 @@ class Home extends Component {
     renderScene(route, navigator) {
         switch (route.name) {
             case 'HOMEVIEW': return <HomeView navigator={navigator} />;
-            case 'CATEGORIES_LIST': return <CategoriesList navigator={navigator} />;
+            case 'CATEGORIES_LIST': return <CategoriesList navigator={navigator} category={route.category} />;
             default:
-                return <ProductDetail navigator={navigator} />;
+                return <ProductDetail navigator={navigator} product={route.product} />;
         }
     }
 
