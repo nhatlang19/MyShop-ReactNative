@@ -1,30 +1,30 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { } from 'react-native';
 
-import Collection from './Home/Collection';
-import Slideshow from './Home/Slideshow';
-import TopProduct from './Home/TopProduct';
+import NavigationExperimental from 'react-native-deprecated-custom-components';
+
+import HomeView from './Home/Home';
+import CategoriesList from '../products/CategoriesList';
+import ProductDetail from '../products/ProductDetail';
 
 class Home extends Component {
+    renderScene(route, navigator) {
+        switch (route.name) {
+            case 'HOMEVIEW': return <HomeView navigator={navigator} />;
+            case 'CATEGORIES_LIST': return <CategoriesList navigator={navigator} />;
+            default:
+                return <ProductDetail navigator={navigator} />;
+        }
+    }
 
     render() {
-        const { wrapper } = styles;
         return (
-            <ScrollView style={wrapper}>
-                <Collection />
-                <Slideshow />
-                <TopProduct />
-            </ScrollView>
+            <NavigationExperimental.Navigator
+                initialRoute={{ name: 'HOMEVIEW' }}
+                renderScene={this.renderScene}
+            />
         );
     }
 }
-
-const styles = StyleSheet.create({
-    wrapper: { 
-        flex: 1, 
-        backgroundColor: '#dee0e0', 
-        padding: 15 
-    }
-});
 
 export default Home;

@@ -1,56 +1,69 @@
 import React, { Component } from 'react';
 import {
     View, StyleSheet, Text,
-    Dimensions, Image
+    Dimensions, Image, TouchableOpacity
 } from 'react-native';
 
 import Swiper from 'react-native-swiper';
 
-import fit from '../../../media/temp/fit.jpg';
-import little from '../../../media/temp/little.jpg';
-import maxi from '../../../media/temp/maxi.jpg';
-import midi from '../../../media/temp/midi.jpg';
-import mini from '../../../media/temp/mini.jpg';
-import party from '../../../media/temp/party.jpg';
+import ApiGetCategories from '../../../apis/categories';
 
 const { width } = Dimensions.get('window');
 
 class Slideshow extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+
+        this.state = {
+            loadedCat: false,
+            categories: []
+        };
+    }
+
+    componentDidMount() {
+        ApiGetCategories((res) => {
+            this.setState({ loadedCat: true });
+            this.setState({ categories: res });
+        });
+    }
+
+    gotoCategoriesList() {
+        const { navigator } = this.props;
+        navigator.push({ name: 'CATEGORIES_LIST' });
     }
 
     render() {
         const {
             wrapper, imageStyle, titleStyle, categoryText
         } = styles;
-
-        const categories = [
-            { key: 0, url: fit, name: 'Maxi Dress' },
-            { key: 1, url: little, name: 'Maxi Dress' },
-            { key: 2, url: maxi, name: 'Maxi Dress' },
-            { key: 3, url: midi, name: 'Maxi Dress' },
-            { key: 4, url: mini, name: 'Maxi Dress' },
-            { key: 5, url: party, name: 'Maxi Dress' }
-        ];
+        let swiper;
+        if (this.state.loadedCat) {
+            swiper = (
+                <Swiper showsPagination width={imageWidth} height={imageHeight}>
+                    {
+                        this.state.categories.map((e) => (
+                            <TouchableOpacity
+                                key={e.id}
+                                onPress={this.gotoCategoriesList.bind(this)}
+                            >
+                                <Image style={imageStyle} source={{ uri: e.images }}>
+                                    <Text style={categoryText}>{e.name}</Text>
+                                </Image>
+                            </TouchableOpacity>
+                        ))
+                    }
+                </Swiper>
+            );
+        }
         return (
-            <View style={wrapper}>
+            <View style={wrapper} >
                 <View style={{ justifyContent: 'center', height: 50 }}>
                     <Text style={titleStyle}>LIST OF CATEGORY</Text>
                 </View>
                 <View style={{ justifyContent: 'flex-end' }}>
-                    <Swiper showsPagination width={imageWidth} height={imageHeight}>
-                        {
-                            categories.map((e) => (
-                                <Image key={e.key} style={imageStyle} source={e.url}>
-                                    <Text style={categoryText}>{e.name}</Text>
-                                </Image>
-                            ))
-                        }
-                    </Swiper>
+                    {swiper}
                 </View>
-            </View>
+            </View >
         );
     }
 }
