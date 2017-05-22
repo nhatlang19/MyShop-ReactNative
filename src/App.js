@@ -19,7 +19,7 @@ class App extends Component {
     renderScene(route, navigator) {
         switch (route.name) {
             case 'MAIN': return <Main navigator={navigator} />;
-            case 'AUTHENTICATION': return <Authentication navigator={navigator} />;
+            case 'AUTHENTICATION': return <Authentication navigator={navigator} openLoginView={route.openLoginView} />;
             case 'CHANGE_INFO': return <ChangeInfo navigator={navigator} />;
             default:
                 return <OrderHistory navigator={navigator} />;

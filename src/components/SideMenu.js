@@ -29,7 +29,7 @@ class SideMenu extends Component {
         const signIn = (
             <SignIn
                 navigator={this.props.navigator}
-                login={this.login.bind(this)}
+                openLoginView={this.login.bind(this)}
             />
         );
         const menu = (

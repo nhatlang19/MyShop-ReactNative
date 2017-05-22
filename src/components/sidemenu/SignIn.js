@@ -3,9 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 class SignIn extends Component {
     gotoAuthentication() {
-        const { navigator } = this.props;
-        navigator.push({ name: 'AUTHENTICATION' });
-        // this.props.login();
+        const { navigator, openLoginView } = this.props;
+        navigator.push({ name: 'AUTHENTICATION', openLoginView: { openLoginView } });
     }
 
     render() {

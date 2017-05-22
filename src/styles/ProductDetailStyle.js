@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const imageWidth = (361 / 2.3);
+const imageWidth = (361 / 2);
 const imageHeight = (imageWidth / 361) * 452;
 
 const styles = StyleSheet.create({
@@ -39,8 +39,7 @@ const styles = StyleSheet.create({
 
     },
     imageListStyle: {
-        flexDirection: 'row',
-        justifyContent: 'center',
+        marginHorizontal: 5
     },
     imageStyle: {
         width: imageWidth,
@@ -66,7 +65,7 @@ const styles = StyleSheet.create({
     descStyle: {
         paddingHorizontal: 20,
         paddingVertical: 10,
-        height: 170
+        height: 200
     },
     descriptionStyle: {
         textAlign: 'justify',

@@ -1,20 +1,29 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 
+import ApiLogin from '../../apis/login';
+import TokenStorage from '../../storage/token';
+
 class SignIn extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            email: '',
+            password: ''
         };
     }
 
     login() {
-        this.setState({ isLoggedIn: true });
-    }
-
-    logout() {
-        this.setState({ isLoggedIn: false });
+        ApiLogin(this.state, (data) => {
+            if (data.status === 1) {
+                alert(data.message);
+            } else {
+                TokenStorage.saveToken(data.token);
+                this.props.openLoginView();
+                this.props.goBack();
+            }
+        });
     }
 
     render() {
@@ -24,13 +33,19 @@ class SignIn extends Component {
             <View style={wrapper}>
                 <TextInput
                     style={inputStyle}
+                    onChangeText={(email) => this.setState({ email })}
                     placeholder='Enter your email'
                 />
                 <TextInput
                     style={inputStyle}
+                    onChangeText={(password) => this.setState({ password })}
                     placeholder='Enter your password'
+                    secureTextEntry
                 />
-                <TouchableOpacity style={bigButton}>
+                <TouchableOpacity 
+                style={bigButton}
+                onPress={this.login.bind(this)}
+                >
                     <Text style={textButton}>SIGN IN NOW</Text>
                 </TouchableOpacity>
             </View>

@@ -36,7 +36,19 @@ class Authentication extends Component {
     render() {
         const { wrapper, header, imageHeader, titleHeader,
             tabAuthen, textSignIn, textSignUp, tabItem } = styles;
-        const showUi = this.state.clickedSignIn ? <SignIn /> : <SignUp />;
+        const { navigator, openLoginView } = this.props;
+        const SignUpView = (<SignUp
+            navigator={navigator}
+            signIn={this.signIn.bind(this)}
+        />);
+
+        const SignInView = (
+            <SignIn
+                openLoginView={openLoginView.openLoginView}
+                goBack={this.goBack.bind(this)}
+            />
+        );
+        const showUi = this.state.clickedSignIn ? SignInView : SignUpView;
         return (
             <View style={wrapper}>
                 <View style={header}>
@@ -48,10 +60,16 @@ class Authentication extends Component {
                 </View>
                 {showUi}
                 <View style={tabAuthen}>
-                    <TouchableOpacity style={textSignIn} onPress={this.signIn.bind(this)}>
+                    <TouchableOpacity
+                        style={textSignIn}
+                        onPress={this.signIn.bind(this)}
+                    >
                         <Text style={tabItem}>SIGN IN</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={textSignUp} onPress={this.signUp.bind(this)}>
+                    <TouchableOpacity
+                        style={textSignUp}
+                        onPress={this.signUp.bind(this)}
+                    >
                         <Text style={tabItem}>SIGN UP</Text>
                     </TouchableOpacity>
                 </View>

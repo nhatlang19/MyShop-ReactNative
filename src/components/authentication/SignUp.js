@@ -1,20 +1,28 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 
+import ApiRegister from '../../apis/register';
+
 class SignUp extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            name: '',
+            email: '',
+            password: '',
         };
     }
 
-    login() {
-        this.setState({ isLoggedIn: true });
-    }
-
-    logout() {
-        this.setState({ isLoggedIn: false });
+    callRegister() {
+        ApiRegister(this.state, (data) => {
+            if (data.status === 1) {
+                alert(data.message);
+            } else {
+                alert(data.message);
+                this.props.signIn();
+            }
+        });
     }
 
     render() {
@@ -24,21 +32,21 @@ class SignUp extends Component {
             <View style={wrapper}>
                 <TextInput
                     style={inputStyle}
+                    onChangeText={(name) => this.setState({ name })}
                     placeholder='Enter your name'
                 />
                 <TextInput
                     style={inputStyle}
+                    onChangeText={(email) => this.setState({ email })}
                     placeholder='Enter your email'
                 />
                 <TextInput
                     style={inputStyle}
+                    onChangeText={(password) => this.setState({ password })}
                     placeholder='Enter your password'
+                    secureTextEntry
                 />
-                <TextInput
-                    style={inputStyle}
-                    placeholder='Re-Enter your password'
-                />
-                <TouchableOpacity style={bigButton}>
+                <TouchableOpacity style={bigButton} onPress={this.callRegister.bind(this)}>
                     <Text style={textButton}>SIGN UP NOW</Text>
                 </TouchableOpacity>
             </View>

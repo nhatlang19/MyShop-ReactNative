@@ -57,7 +57,7 @@ class TopProduct extends Component {
     }
 }
 // 361 x 452
-const imageWidth = (361 / 2) - 38;
+const imageWidth = (361 / 2) - 20;
 const imageHeight = (imageWidth / 361) * 452;
 
 const styles = StyleSheet.create({

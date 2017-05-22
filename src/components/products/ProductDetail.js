@@ -25,6 +25,9 @@ class ProductDetail extends Component {
             nameStyle, priceStyle, descStyle, descriptionStyle,
             optStyle, typeStyle, colorStyle
         } = styles;
+
+        const { product } = this.props;
+
         return (
             <View style={wrapper}>
                 <View style={container}>
@@ -38,26 +41,26 @@ class ProductDetail extends Component {
                         </TouchableOpacity>
                     </View>
                     <View style={detailStyle}>
-                        <View style={imageListStyle}>
-                            <Image style={imageStyle} source={sp1} />
-                            <Image style={imageStyle} source={sp2} />
-                        </View>
+                        <ScrollView horizontal style={imageListStyle}>
+                            {
+                                product.list_images.map((e) => (
+                                    <Image style={imageStyle} source={{ uri: e }} />
+                                ))
+                            }
+                        </ScrollView>
                         <View style={titleListStyle}>
-                            <Text style={nameStyle}>BLACK OFF THE</Text>
-                            <Text style={priceStyle}>/ 124$</Text>
+                            <Text style={nameStyle}>{product.name}</Text>
+                            <Text style={priceStyle}>/ {product.price}$</Text>
                         </View>
                         <ScrollView style={descStyle}>
                             <Text style={descriptionStyle}>
-                                Adding alignItems to a component's style determines the alignment of children along the secondary axis (if the primary axis is row, then the secondary is column, and vice versa). Should children be aligned at the start, the center, the end, or stretched to fill? Available options are flex-start, center, flex-end, and stretch.
-                                Going Deeper
-We've covered the basics, but there are many other styles you may need for layouts. The full list of props that control layout is documented here.
-We're getting close to being able to build a real application. One thing we are still missing is a way to take user input, so let's move on to learn how to handle text input with the TextInput component.
+                                {product.description}
                             </Text>
                         </ScrollView>
                         <View style={optStyle}>
-                            <Text style={typeStyle}>Material leather </Text>
+                            <Text style={typeStyle}>{product.type}</Text>
                             <View />
-                            <Text style={colorStyle}>Color Khaki </Text>
+                            <Text style={colorStyle}>Color {product.colorName}</Text>
                         </View>
                     </View>
                 </View>
