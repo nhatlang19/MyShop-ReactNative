@@ -1,34 +1,29 @@
 import React, { Component } from 'react';
 import {
     View, StyleSheet, Text,
-    Dimensions, Image, TouchableOpacity, ListView
+    Image, TouchableOpacity, ListView
 } from 'react-native';
 
-import sp1 from '../../../media/temp/sp1.jpeg';
-import sp2 from '../../../media/temp/sp2.jpeg';
-import sp3 from '../../../media/temp/sp3.jpeg';
-import sp4 from '../../../media/temp/sp4.jpeg';
-import sp5 from '../../../media/temp/sp5.jpeg';
-
-const { width, height } = Dimensions.get('window');
-
+import ApiTopProduct from '../../../apis/topProduct';
 
 class TopProduct extends Component {
     constructor(props) {
         super(props);
         const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-        const products = [
-            { key: 0, imgUrl: sp1, price: '120$', name: 'Maxi Dress' },
-            { key: 1, imgUrl: sp2, price: '120$', name: 'Maxi Dress' },
-            { key: 2, imgUrl: sp3, price: '120$', name: 'Maxi Dress' },
-            { key: 3, imgUrl: sp4, price: '120$', name: 'Maxi Dress' },
-            { key: 4, imgUrl: sp5, price: '120$', name: 'Maxi Dress' },
-        ];
         this.state = {
-            dataSource: ds.cloneWithRows(products)
+            dataSource: ds
         };
     }
 
+    componentDidMount() {
+        ApiTopProduct((data) => {
+            this.setState({ dataSource: this.state.dataSource.cloneWithRows(data) });
+        });
+    }
+
+    gotoProductDetail(product) {
+        this.props.navigator.push({ name: 'PRODUCT_DETAIL', product });
+    }
 
     render() {
         const {
@@ -42,12 +37,14 @@ class TopProduct extends Component {
                     <ListView
                         contentContainerStyle={list}
                         dataSource={this.state.dataSource}
-                        renderRow={(rowData) => (
+                        renderRow={(product) => (
+                            <TouchableOpacity key={product.id} onPress={this.gotoProductDetail.bind(this, product)}>
                             <View style={item}>
-                                <Image style={imageItem} source={rowData.imgUrl} />
-                                <Text style={productName}>{rowData.name}</Text>
-                                <Text style={productPrice}>{rowData.price}</Text>
+                                <Image style={imageItem} source={{ uri: product.image }} />
+                                <Text style={productName}>{product.name}</Text>
+                                <Text style={productPrice}>{product.price}$</Text>
                             </View>
+                            </TouchableOpacity>
                         )
                         }
                     />

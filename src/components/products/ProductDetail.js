@@ -28,6 +28,7 @@ class ProductDetail extends Component {
 
         const { product } = this.props;
 
+        let index = 1;
         return (
             <View style={wrapper}>
                 <View style={container}>
@@ -43,8 +44,9 @@ class ProductDetail extends Component {
                     <View style={detailStyle}>
                         <ScrollView horizontal style={imageListStyle}>
                             {
+                                
                                 product.list_images.map((e) => (
-                                    <Image style={imageStyle} source={{ uri: e }} />
+                                    <Image key={index++} style={imageStyle} source={{ uri: e }} />
                                 ))
                             }
                         </ScrollView>

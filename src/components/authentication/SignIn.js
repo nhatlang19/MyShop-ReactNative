@@ -14,12 +14,12 @@ class SignIn extends Component {
         };
     }
 
-    login() {
-        ApiLogin(this.state, (data) => {
+    async login() {
+        ApiLogin(this.state, async(data) => {
             if (data.status === 1) {
                 alert(data.message);
-            } else {
-                TokenStorage.saveToken(data.token);
+            } else { 
+                await TokenStorage.saveToken(data.token);
                 this.props.openLoginView();
                 this.props.goBack();
             }

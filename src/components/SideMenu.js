@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, AsyncStorage } from 'react-native';
 
 import Avatar from './sidemenu/Avatar';
 import SignIn from './sidemenu/SignIn';
 import Menu from './sidemenu/Menu';
 import Copyright from './sidemenu/Copyright';
+
+import TokenStorage from '../storage/token';
 
 class SideMenu extends Component {
     constructor(props) {
@@ -15,11 +17,17 @@ class SideMenu extends Component {
         };
     }
 
+    async componentDidMount() {
+        const isLogin = await TokenStorage.isLoggedIn();
+        this.setState({ isLoggedIn: isLogin });
+    }
+
     login() {
         this.setState({ isLoggedIn: true });
     }
 
-    logout() {
+    async logout() {
+        await TokenStorage.logout();
         this.setState({ isLoggedIn: false });
     }
 

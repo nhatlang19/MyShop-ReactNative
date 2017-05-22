@@ -13,7 +13,7 @@ class Home extends Component {
             <ScrollView style={wrapper}>
                 <Collection />
                 <Slideshow navigator={this.props.navigator} />
-                <TopProduct />
+                <TopProduct navigator={this.props.navigator} />
             </ScrollView>
         );
     }
