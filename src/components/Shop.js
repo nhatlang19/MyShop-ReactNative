@@ -3,7 +3,7 @@ import { View, Image, StyleSheet } from 'react-native';
 
 import TabNavigator from 'react-native-tab-navigator';
 
-import Cart from './tabs/Cart';
+import Cart from './tabs/CartNavigator';
 import Contact from './tabs/Contact';
 import Home from './tabs/Home';
 import Search from './tabs/Search';
@@ -19,13 +19,50 @@ import IconSearchSelected from '../media/appIcon/search.png';
 import IconContact from '../media/appIcon/contact0.png';
 import IconContactSelected from '../media/appIcon/contact.png';
 
+import global from '../global';
+
+import saveCart from '../apis/saveCart';
+import getCart from '../apis/getCart';
+
 class Shop extends Component {
     constructor(props) {
         super(props);
         this.state = {
             selectedTab: 'home',
-            numberInCart: 1
+            carts: []
         };
+
+        global.addToCart = this.addToCart.bind(this);
+        global.updateItemCart = this.updateItemCart.bind(this);
+        global.removeItemCart = this.removeItemCart.bind(this);
+    }
+
+    componentDidMount() {
+        getCart().then(carts => {
+            this.setState({ carts });
+        });
+    }
+
+    updateItemCart(product) {
+        const carts = this.state.carts;
+        const index = carts.findIndex(p => p.id === product.id);
+        carts[index] = product;
+        this.setState({ carts }, () => {
+            saveCart(this.state.carts);
+        });
+    }
+
+    removeItemCart(product) {
+        const carts = this.state.carts;
+        this.setState({ carts: carts.filter((p) => p.id !== product.id) }, () => {
+            saveCart(this.state.carts);
+        });
+    }
+
+    addToCart(product) {
+        this.setState({ carts: this.state.carts.concat(Object.assign(product, { quantity: 1 })) }, () => {
+            saveCart(this.state.carts);
+        });
     }
 
     render() {
@@ -33,54 +70,54 @@ class Shop extends Component {
 
         return (
             <View style={wrapper}>
-            <Header openMenu={this.props.open} />
-            <TabNavigator>
-                <TabNavigator.Item
-                    titleStyle={tabItem}
-                    selectedTitleStyle={tabItem}
-                    selected={this.state.selectedTab === 'home'}
-                    title="Home"
-                    renderIcon={() => <Image source={IconHome} style={tabIcon} />}
-                    renderSelectedIcon={() => <Image source={IconHomeSelected} style={tabIcon} />}
-                    onPress={() => this.setState({ selectedTab: 'home' })}
-                >
-                    <Home />
-                </TabNavigator.Item>
-                <TabNavigator.Item
-                    titleStyle={tabItem}
-                    selectedTitleStyle={tabItem}
-                    selected={this.state.selectedTab === 'cart'}
-                    title="Cart"
-                    badgeText={this.state.numberInCart}
-                    renderIcon={() => <Image source={IconCart} style={tabIcon} />}
-                    renderSelectedIcon={() => <Image source={IconCartSelected} style={tabIcon} />}
-                    onPress={() => this.setState({ selectedTab: 'cart' })}
-                >
-                    <Cart />
-                </TabNavigator.Item>
-                <TabNavigator.Item
-                    titleStyle={tabItem}
-                    selectedTitleStyle={tabItem}
-                    selected={this.state.selectedTab === 'search'}
-                    title="Search"
-                    renderIcon={() => <Image source={IconSearch} style={tabIcon} />}
-                    renderSelectedIcon={() => <Image source={IconSearchSelected} style={tabIcon} />}
-                    onPress={() => this.setState({ selectedTab: 'search' })}
-                >
-                    <Search />
-                </TabNavigator.Item>
-                <TabNavigator.Item
-                    titleStyle={tabItem}
-                    selectedTitleStyle={tabItem}
-                    selected={this.state.selectedTab === 'contact'}
-                    title="Contact"
-                    renderIcon={() => <Image source={IconContact} style={tabIcon} />}
-                    renderSelectedIcon={() => <Image source={IconContactSelected} style={tabIcon} />}
-                    onPress={() => this.setState({ selectedTab: 'contact' })}
-                >
-                    <Contact />
-                </TabNavigator.Item>
-            </TabNavigator>
+                <Header openMenu={this.props.open} />
+                <TabNavigator>
+                    <TabNavigator.Item
+                        titleStyle={tabItem}
+                        selectedTitleStyle={tabItem}
+                        selected={this.state.selectedTab === 'home'}
+                        title="Home"
+                        renderIcon={() => <Image source={IconHome} style={tabIcon} />}
+                        renderSelectedIcon={() => <Image source={IconHomeSelected} style={tabIcon} />}
+                        onPress={() => this.setState({ selectedTab: 'home' })}
+                    >
+                        <Home />
+                    </TabNavigator.Item>
+                    <TabNavigator.Item
+                        titleStyle={tabItem}
+                        selectedTitleStyle={tabItem}
+                        selected={this.state.selectedTab === 'cart'}
+                        title="Cart"
+                        badgeText={this.state.carts.length}
+                        renderIcon={() => <Image source={IconCart} style={tabIcon} />}
+                        renderSelectedIcon={() => <Image source={IconCartSelected} style={tabIcon} />}
+                        onPress={() => this.setState({ selectedTab: 'cart' })}
+                    >
+                        <Cart items={this.state.carts} />
+                    </TabNavigator.Item>
+                    <TabNavigator.Item
+                        titleStyle={tabItem}
+                        selectedTitleStyle={tabItem}
+                        selected={this.state.selectedTab === 'search'}
+                        title="Search"
+                        renderIcon={() => <Image source={IconSearch} style={tabIcon} />}
+                        renderSelectedIcon={() => <Image source={IconSearchSelected} style={tabIcon} />}
+                        onPress={() => this.setState({ selectedTab: 'search' })}
+                    >
+                        <Search />
+                    </TabNavigator.Item>
+                    <TabNavigator.Item
+                        titleStyle={tabItem}
+                        selectedTitleStyle={tabItem}
+                        selected={this.state.selectedTab === 'contact'}
+                        title="Contact"
+                        renderIcon={() => <Image source={IconContact} style={tabIcon} />}
+                        renderSelectedIcon={() => <Image source={IconContactSelected} style={tabIcon} />}
+                        onPress={() => this.setState({ selectedTab: 'contact' })}
+                    >
+                        <Contact />
+                    </TabNavigator.Item>
+                </TabNavigator>
             </View>
         );
     }

@@ -9,8 +9,7 @@ import styles from '../../styles/ProductDetailStyle';
 import backIcon from '../../media/appIcon/back.png';
 import cartIcon from '../../media/appIcon/cartfull.png';
 
-import sp1 from '../../media/temp/sp1.jpeg';
-import sp2 from '../../media/temp/sp2.jpeg';
+import global from '../../global';
 
 class ProductDetail extends Component {
     back() {
@@ -37,7 +36,7 @@ class ProductDetail extends Component {
                             <Image style={back} source={backIcon} />
                         </TouchableOpacity>
                         <View />
-                        <TouchableOpacity onPress={this.back.bind(this)}>
+                        <TouchableOpacity onPress={global.addToCart.bind(this, product)}>
                             <Image style={cart} source={cartIcon} />
                         </TouchableOpacity>
                     </View>
