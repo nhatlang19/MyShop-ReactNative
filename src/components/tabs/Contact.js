@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { View, Dimensions, StyleSheet } from 'react-native';
+import { View, Dimensions, StyleSheet, Text, Image } from 'react-native';
 
 import MapView from 'react-native-maps';
 
-const deviceHeight = Dimensions.get('window').height;
+import locationImg from '../../media/appIcon/location.png';
+import phoneImg from '../../media/appIcon/phone.png';
+import mailImg from '../../media/appIcon/mail.png';
+import messageImg from '../../media/appIcon/message.png';
 
 class Contact extends Component {
     constructor(props) {
@@ -21,7 +24,12 @@ class Contact extends Component {
     }
 
     render() {
-        const { wrapper, mapViewStyle, mapStyle } = styles;
+        const { 
+            wrapper, mapViewStyle, mapStyle,
+            contactViewStyle, addressStyle,
+            contactTextStyle, iconStyle,
+            addressStyleNoBorder
+        } = styles;
         const { marker } = this.state;
         return (
             <View style={wrapper}>
@@ -42,6 +50,28 @@ class Contact extends Component {
                         />
                     </MapView>
                 </View>
+                <View style={contactViewStyle}>
+                    <View style={addressStyle}>
+                        <Image source={locationImg} style={iconStyle} />
+                        <View />
+                        <Text style={contactTextStyle}>Tran Quang Dieu str, District 3</Text>
+                    </View>
+                    <View style={addressStyle}>
+                        <Image source={phoneImg} style={iconStyle} />
+                        <View />
+                        <Text style={contactTextStyle}>0909 999 999</Text>
+                    </View>
+                    <View style={addressStyle}>
+                        <Image source={mailImg} style={iconStyle} />
+                        <View />
+                        <Text style={contactTextStyle}>admin@myshop.com</Text>
+                    </View>
+                    <View style={addressStyleNoBorder}>
+                        <Image source={messageImg} style={iconStyle} />
+                        <View />
+                        <Text style={contactTextStyle}>0909 999 999</Text>
+                    </View>
+                </View>
 
             </View>
         );
@@ -61,12 +91,42 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
         shadowOffset: { width: 3, height: 3 },
         shadowOpacity: 0.2,
-        height: deviceHeight / 2.5
+        flex: 1
     },
     mapStyle: {
         flex: 1
+    },
+    contactViewStyle: {
+        shadowColor: '#000',
+        shadowOffset: { width: 3, height: 3 },
+        shadowOpacity: 0.2,
+        flex: 1,
+        backgroundColor: '#fff',
+        justifyContent: 'center'
+    },
+    addressStyle: {
+        borderBottomWidth: 1,
+        borderColor: '#d6d6d6',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingVertical: 10,
+        marginHorizontal: 10
+    },
+    contactTextStyle: {
+        color: '#ed28cc'
+    },
+    iconStyle: {
+        width: 30,
+        height: 30
+    },
+    addressStyleNoBorder: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingVertical: 10,
+        marginHorizontal: 10
     }
-
 });
 
 export default Contact;

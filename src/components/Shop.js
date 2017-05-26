@@ -6,7 +6,7 @@ import TabNavigator from 'react-native-tab-navigator';
 import Cart from './tabs/CartNavigator';
 import Contact from './tabs/Contact';
 import Home from './tabs/Home';
-import Search from './tabs/Search';
+import Search from './tabs/SearchNavigator';
 
 import Header from './common/Header';
 
@@ -23,13 +23,16 @@ import global from '../global';
 
 import saveCart from '../apis/saveCart';
 import getCart from '../apis/getCart';
+import ApiSearch from '../apis/search';
+
 
 class Shop extends Component {
     constructor(props) {
         super(props);
         this.state = {
             selectedTab: 'home',
-            carts: []
+            carts: [],
+            products: null
         };
 
         global.addToCart = this.addToCart.bind(this);
@@ -65,12 +68,18 @@ class Shop extends Component {
         });
     }
 
+    search(keyword) {
+        ApiSearch(keyword, (res) => {
+            this.setState({ products: res });
+        });
+    }
+
     render() {
         const { wrapper, tabIcon, tabItem } = styles;
 
         return (
             <View style={wrapper}>
-                <Header openMenu={this.props.open} />
+                <Header openMenu={this.props.open} search={this.search.bind(this)} />
                 <TabNavigator>
                     <TabNavigator.Item
                         titleStyle={tabItem}
@@ -104,7 +113,7 @@ class Shop extends Component {
                         renderSelectedIcon={() => <Image source={IconSearchSelected} style={tabIcon} />}
                         onPress={() => this.setState({ selectedTab: 'search' })}
                     >
-                        <Search />
+                        <Search products={this.state.products} />
                     </TabNavigator.Item>
                     <TabNavigator.Item
                         titleStyle={tabItem}

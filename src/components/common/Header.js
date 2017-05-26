@@ -12,7 +12,11 @@ const { height } = Dimensions.get('window');
 class Header extends Component {
     constructor(props) {
         super(props);
-        this.state = { searchBy: '' };
+        this.state = { keyword: '' };
+    }
+
+    search() {
+        this.props.search(this.state.keyword);
     }
 
     render() {
@@ -33,7 +37,9 @@ class Header extends Component {
                 <TextInput
                     placeholder='What do you want to buy?'
                     style={txtSearch}
-                    onChangeText={(searchBy) => this.setState({ searchBy })}
+                    returnKeyType='search'
+                    onChangeText={(keyword) => this.setState({ keyword })}
+                    onEndEditing={this.search.bind(this)}
                 />
             </View>
         );
