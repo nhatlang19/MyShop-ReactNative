@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import {
     View, StyleSheet, Text,
-    Image, TouchableOpacity, ListView
+    Image, TouchableOpacity, ListView,
+    Dimensions
 } from 'react-native';
 
 import ApiTopProduct from '../../../apis/topProduct';
+
+const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get('window').height;
 
 class TopProduct extends Component {
     constructor(props) {
@@ -54,7 +58,7 @@ class TopProduct extends Component {
     }
 }
 // 361 x 452
-const imageWidth = (361 / 2) - 20;
+const imageWidth = (deviceWidth / 2.7);
 const imageHeight = (imageWidth / 361) * 452;
 
 const styles = StyleSheet.create({
